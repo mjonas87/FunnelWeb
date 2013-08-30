@@ -966,14 +966,14 @@ Attacklab.wmdBase = function () {
             setupButton(quoteButton, true);
             buttonRow.appendChild(quoteButton);
 
-            var codeButton = document.createElement("li");
-            codeButton.className = "wmd-button";
-            codeButton.id = "wmd-code-button";
-            codeButton.title = "Code Sample <pre><code> Ctrl+K";
-            codeButton.XShift = "-80px";
-            codeButton.textOp = command.doCode;
-            setupButton(codeButton, true);
-            buttonRow.appendChild(codeButton);
+            //var codeButton = document.createElement("li");
+            //codeButton.className = "wmd-button";
+            //codeButton.id = "wmd-code-button";
+            //codeButton.title = "Code Sample <pre><code> Ctrl+K";
+            //codeButton.XShift = "-80px";
+            //codeButton.textOp = command.doCode;
+            //setupButton(codeButton, true);
+            //buttonRow.appendChild(codeButton);
 
             var imageButton = document.createElement("li");
             imageButton.className = "wmd-button";
@@ -1125,9 +1125,9 @@ Attacklab.wmdBase = function () {
                         case "q":
                             doClick(document.getElementById("wmd-quote-button"));
                             break;
-                        case "k":
-                            doClick(document.getElementById("wmd-code-button"));
-                            break;
+                        //case "k":
+                        //    doClick(document.getElementById("wmd-code-button"));
+                        //    break;
                         case "g":
                             doClick(document.getElementById("wmd-image-button"));
                             break;
