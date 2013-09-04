@@ -22,6 +22,7 @@ namespace FunnelWeb.Authentication.Internal
 
         public bool AuthenticateAndLogin(string username, string password)
         {
+            //Test
             var requiredUsername = configSettings.Get("funnelweb.configuration.authentication.username");
             var requiredPassword = configSettings.Get("funnelweb.configuration.authentication.password");
             
