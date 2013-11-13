@@ -380,6 +380,8 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\disqus-count.js" />
     <None Include="Properties\PublishProfiles\CarmensBlog.pubxml" />
+    <None Include="Properties\PublishProfiles\mattsblog - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\mattsblog - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -415,6 +417,7 @@
     <Content Include="Scripts\wmd.js" />
     <Content Include="Themes\AaronPowell\Content\Styles\Theme.css" />
     <Content Include="Themes\Clean\Content\Styles\Theme.css" />
+    <Content Include="Themes\Flatly\Content\Styles\Theme.css" />
     <Content Include="Themes\Default\Content\Styles\Theme.css" />
     <Content Include="Themes\Evolve\Content\Images\background.png" />
     <Content Include="Themes\Evolve\Content\Styles\Theme.css" />
@@ -511,6 +514,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\Views\" />
+    <Folder Include="Themes\Flatly\Content\Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

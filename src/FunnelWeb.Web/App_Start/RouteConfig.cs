@@ -22,7 +22,7 @@ namespace FunnelWeb.Web.App_Start
             routes.MapLowerCaseRoute("get/{*path}", new { controller = "Upload", action = "Render", area = "Admin" });
 
             // Resources
-            routes.MapLowerCaseRoute("content/theme.css", new { controller = "Resource", action = "RenderThemedFileIfExists", fileToRender = "{Theme}/Content/Styles/Theme.css", contentType = "text/css" });
+            //routes.MapLowerCaseRoute("content/theme.css", new { controller = "Resource", action = "RenderThemedFileIfExists", fileToRender = "{Theme}/Content/Styles/Theme.css", contentType = "text/css" });
             routes.MapLowerCaseRoute("robots", new { controller = "Resource", action = "Render", fileName = "Content/Resources/Robots.txt", contentType = "text/plain" });
             routes.MapLowerCaseRoute("robots.txt", new { controller = "Resource", action = "Render", fileName = "Content/Resources/Robots.txt", contentType = "text/plain" });
             routes.MapLowerCaseRoute("humans.txt", new { controller = "Resource", action = "Render", fileName = "Content/Resources/Humans.txt", contentType = "text/plain" });

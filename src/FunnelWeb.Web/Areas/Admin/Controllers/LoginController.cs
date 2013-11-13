@@ -9,9 +9,9 @@ namespace FunnelWeb.Web.Areas.Admin.Controllers
     [ValidateInput(false)]
     public class LoginController : Controller
     {
-        readonly Lazy<IConfigSettings> bootstrapSettings;
+        readonly Lazy<IConfigurationManager> bootstrapSettings;
 
-        public LoginController(Lazy<IConfigSettings> bootstrapSettings)
+        public LoginController(Lazy<IConfigurationManager> bootstrapSettings)
         {
             this.bootstrapSettings = bootstrapSettings;
         }
@@ -25,7 +25,7 @@ namespace FunnelWeb.Web.Areas.Admin.Controllers
 
             if (model.DatabaseIssue == true)
             {
-                model.ConfigFileMissing = bootstrapSettings.Value.ConfigFileMissing();
+                model.ConfigFileMissing = string.IsNullOrEmpty(bootstrapSettings.Value.ConnectionString);
             }
 
             return View(model);

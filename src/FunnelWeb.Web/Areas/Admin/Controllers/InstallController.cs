@@ -68,30 +68,6 @@ namespace FunnelWeb.Web.Areas.Admin.Controllers
             return View("Index", model);
         }
 
-        public ActionResult ChangeProvider(string databaseProvider)
-        {
-            var provider = databaseProvidersInfo().GetProviderByName(databaseProvider);
-
-            ConnectionStringSettings.ConnectionString = provider.DefaultConnectionString;
-            ConnectionStringSettings.DatabaseProvider = databaseProvider;
-            if (!provider.SupportSchema)
-                ConnectionStringSettings.Schema = null;
-            UpgradeDetector.Reset();
-            
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        [ActionName("test")]
-        public virtual ActionResult Test(string connectionString, string schema)
-        {
-            ConnectionStringSettings.ConnectionString = connectionString;
-            ConnectionStringSettings.Schema = schema;
-            UpgradeDetector.Reset();
-            
-            return RedirectToAction("Index");
-        }
-
         [HttpPost]
         public virtual ActionResult Upgrade()
         {

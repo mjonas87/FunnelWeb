@@ -22,10 +22,8 @@ namespace FunnelWeb.Settings
                 .As<IConnectionStringSettings>()
                 .SingleInstance();
 
-            // This is for Azure connection string support, needs more thought on how to adapt/detect Azure
-            //builder.Register(c => new ConfigSettingsAdapter(new XmlConfigSettings(bootstrapSettingsFilePath)))
-            builder.Register(c => new XmlConfigSettings(bootstrapSettingsFilePath))
-                .As<IConfigSettings>()
+            builder.Register(c => new CustomConfigurationManager())
+                .As<IConfigurationManager>()
                 .SingleInstance();
 
             builder.RegisterType<AppHarborSettings>()

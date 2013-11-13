@@ -1,18 +1,22 @@
+#region
+
 using System;
 using System.Web.Security;
 using FunnelWeb.Settings;
+
+#endregion
 
 namespace FunnelWeb.Authentication.Internal
 {
     public class FormsAuthenticator : IAuthenticator
     {
+        private readonly IConfigurationManager configMgr;
         private readonly Func<ISettingsProvider> settingsProvider;
-        private readonly IConfigSettings configSettings;
 
-        public FormsAuthenticator(Func<ISettingsProvider> settingsProvider, IConfigSettings configSettings)
+        public FormsAuthenticator(Func<ISettingsProvider> provider, IConfigurationManager configManager)
         {
-            this.settingsProvider = settingsProvider;
-            this.configSettings = configSettings;
+            settingsProvider = provider;
+            configMgr = configManager;
         }
 
         public string GetName()
@@ -23,11 +27,11 @@ namespace FunnelWeb.Authentication.Internal
         public bool AuthenticateAndLogin(string username, string password)
         {
             //Test
-            var requiredUsername = configSettings.Get("funnelweb.configuration.authentication.username");
-            var requiredPassword = configSettings.Get("funnelweb.configuration.authentication.password");
-            
+            var requiredUsername = configMgr.AppSettings("username");
+            var requiredPassword = configMgr.AppSettings("password");
+
             var authenticated = username == requiredUsername && password == requiredPassword;
-            
+
             if (authenticated)
             {
                 FormsAuthentication.SetAuthCookie(username, true);

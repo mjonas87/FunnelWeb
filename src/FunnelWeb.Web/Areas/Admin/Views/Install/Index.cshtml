@@ -13,181 +13,66 @@
 <p class='important'>
     Welcome to your FunnelWeb installation!
 </p>
-<p>
-    This page allows you to edit the SQL Server connection string, and install or upgrade
-    the database. You will see this page any time you upgrade FunnelWeb.
-</p>
 
-@if (Model.IsSettingsReadOnly)
+@if (Model.CanConnect)
 {
-    <h2>Settings Read Only</h2>
-    @Model.ReadOnlyReason
-
-    if (Model.CanConnect)
-    {
-        <p class='good'>
-            The connection string below appears to work. Ready to go.
+    <p class='good'>
+        Connection to database successful!
+    </p>
+    <text>
+        <h2>@proceed</h2>
+        <p>
+            The FunnelWeb @noun is now ready to @verb your database.
         </p>
-    }
-    else
-    {
-        <p class='bad'>
-            The connection string below is invalid. You will need to change it before proceeding
-            with this @verb. The error was:
-        </p>
-        <pre>@Model.ConnectionError</pre>
-    }
+        @if (Model.ScriptsToRun.Length > 0)
+        {
+            <p>
+                The following scripts will be run against your database.
+            </p>
 
-    <h3>Current Settings</h3>
-
-    <div class="form-body">
-        <div class="editor-label">
-            @Html.LabelFor(m => m.DatabaseProvider):
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(
-                m => m.DatabaseProvider,
-                new{ @readonly = true})
-        </div>
-        
-        <div class="editor-label">
-        @Html.LabelFor(m => m.ConnectionString):
-    </div>
-    <div class="editor-field">
-        @Html.TextAreaFor(m => m.ConnectionString, new{ @readonly = true})
-    </div>
-    @if (Model.DatabaseProviderSupportsSchema)
-    {
-        <div class="editor-label">
-            @Html.LabelFor(m => m.Schema):
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(m => m.Schema, new{ @readonly = true})
-        </div>
-    }
-    </div>
+            <ul>
+                @foreach (var item in Model.ScriptsToRun)
+                {
+                    <li>@item</li>
+                }
+            </ul>
+        }
+        @if (Model.ScriptsToRun.Length == 0)
+        {
+            <text>
+                <p class='good'>
+                    Your database is up to date. No @verb is necessary.
+                </p>
+                <p class='important'>
+                    <a href="@Url.Content("~/")">Sweet!</a>
+                </p>
+            </text>
+        }
+        else
+        {
+            <text>
+                <p class='warning'>
+                    Reminder: make sure to perform a backup of your database before proceeding with
+                    this @verb.
+                </p>
+                @using (Html.BeginForm("Upgrade", "Install", FormMethod.Post))
+                {
+                    <div class="form-body">
+                        <p>
+                            @{
+                                <input type="submit" id="submit1" class="submit" value="@verb" />
+                            }
+                        </p>
+                    </div>
+                }
+            </text>
+        }
+    </text>
 }
 else
 {
-    <h2>Change Database Provider</h2>
-    using (Html.BeginForm("ChangeProvider", "Install", FormMethod.Post, new { Area = "Admin" }))
-    {
-        <div class="form-body">
-            <div class="editor-label">
-                @Html.LabelFor(m => m.DatabaseProvider)
-            </div>
-            <div class="editor-field">
-                @Html.DropDownListFor(
-                        m => m.DatabaseProvider,
-                        Model.DatabaseProviders.Select(provider => new SelectListItem
-                                                                       {
-                                                                           Text = provider,
-                                                                           Value = provider,
-                                                                           Selected = provider == Model.DatabaseProvider
-                                                                       }))
-                
-                @Html.ValidationMessageFor(m => m.DatabaseProvider)
-                @Html.HintFor(m => m.DatabaseProvider)
-                <input type="submit" id="changeProvider" class="submit" value="Change Provider" />
-            </div>
-        </div>
-    }
-    <h2>Change Connection String</h2>
-    if (Model.CanConnect)
-    {
-        <p class='good'>
-            The connection string below appears to work. However, you can change it if you wish
-            to use an alternative database.
-        </p>
-    }
-    else
-    {
-        <p class='bad'>
-            The connection string below is invalid. You will need to change it before proceeding
-            with this @verb. The error was:
-        </p>
-        <pre>@Model.ConnectionError</pre>
-    }
-    using (Html.BeginForm("Test", "Install", FormMethod.Post, new { Area = "Admin" }))
-    {
-        <div class="form-body">
-            <div class="editor-label">
-                @Html.LabelFor(m => m.ConnectionString)
-            </div>
-            <div class="editor-field">
-                @Html.TextAreaFor(m => m.ConnectionString, Html.AttributesFor(m => m.ConnectionString))
-                @Html.ValidationMessageFor(m => m.ConnectionString)
-                @Html.HintFor(m => m.ConnectionString)
-            </div>
-            @if (Model.DatabaseProviderSupportsSchema)
-            {
-                <div class="editor-label">
-                    @Html.LabelFor(m => m.Schema)
-                </div>
-                <div class="editor-field">
-                    @Html.TextBoxFor(m => m.Schema, Html.AttributesFor(m => m.ConnectionString))
-                    @Html.ValidationMessageFor(m => m.Schema)
-                    @Html.HintFor(m => m.Schema)
-                </div>
-            }
-            <div class="editor-label">
-            </div>
-            <div class="editor-field">
-                <input type="submit" id="submit" class="submit" value="Save and Test" />
-            </div>
-        </div>
-    }
-    
-}
-@if (Model.CanConnect)
-{
-    <text>
-    <h2>@proceed</h2>
-    <p>
-        The FunnelWeb @noun is now ready to @verb your database.
+    <p class='bad'>
+         The connection string is invalid. You will need to change it before proceeding with this @verb. The error was:
     </p>
-    @if (Model.ScriptsToRun.Length > 0)
-    { 
-        <p>
-            The following scripts will be run against your database.
-        </p>
-    
-        <ul>
-            @foreach (var item in Model.ScriptsToRun)
-            {
-                <li>@item</li>
-            }
-        </ul>
-    }
-    @if (Model.ScriptsToRun.Length == 0)
-    {
-        <text>
-        <p class='good'>
-            Your database is up to date. No @verb is necessary.
-        </p>
-        <p class='important'>
-            <a href="@Url.Content("~/")">Sweet!</a>
-        </p>
-        </text>
-    }
-    else
-    {
-        <text>
-        <p class='warning'>
-            Reminder: make sure to perform a backup of your database before proceeding with
-            this @verb.
-        </p>
-        @using (Html.BeginForm("Upgrade", "Install", FormMethod.Post))
-        {
-            <div class="form-body">
-                <p>
-                    @{
-                        <input type="submit" id="submit1" class="submit" value="@verb" />
-                    }
-                </p>
-            </div>
-        }
-        </text>
-    }
-    </text>
+    <pre>@Model.ConnectionError</pre>
 }

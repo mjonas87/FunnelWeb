@@ -89,7 +89,7 @@ namespace FunnelWeb.Tests
             // The following are singletons just because there's no need to have more than one - if you have a good 
             // reason feel free to change
             IsSingleton<IConnectionStringSettings>("This component uses the bootstrap settings to store the connection string. Since the bootstrap settings are opened/closed on the fly, there only needs to be one instance of this type.");
-            IsSingleton<IConfigSettings>("This component opens/closes the XML file on the fly; there's no need to have more than one.");
+            IsSingleton<IConfigurationManager>("This component handles the configuration values");
             IsSingleton<IMimeTypeLookup>("It just calls the registry/a static list - no need for more than one");
 
             IsSingleton<IProviderInfo<IDatabaseProvider>>("This type extends the contains, no need to create multiple times");

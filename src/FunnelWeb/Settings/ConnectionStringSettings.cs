@@ -1,54 +1,45 @@
-﻿using FunnelWeb.DatabaseDeployer;
+﻿#region
+
+using FunnelWeb.DatabaseDeployer;
+
+#endregion
 
 namespace FunnelWeb.Settings
 {
     public class ConnectionStringSettings : IConnectionStringSettings
     {
-        private readonly IConfigSettings settings;
+        private const string SchemaKey = "schema";
+        private const string ReadOnlyReasonKey = "readOnlyReason";
+        private const string ProviderKey = "provider";
         private readonly IAppHarborSettings appHarborSettings;
+        private readonly IConfigurationManager configMgr;
 
-        public ConnectionStringSettings(IConfigSettings settings, IAppHarborSettings appHarborSettings)
+        public ConnectionStringSettings(IConfigurationManager configManager, IAppHarborSettings appHarbor)
         {
-            this.settings = settings;
-            this.appHarborSettings = appHarborSettings;
+            configMgr = configManager;
+            appHarborSettings = appHarbor;
         }
 
         public string ConnectionString
         {
-            get
-            {
-                return appHarborSettings.SqlServerConnectionString ?? settings.Get("funnelweb.configuration.database.connection");
-            }
-            set
-            {
-                if (appHarborSettings.SqlServerConnectionString != null)
-                    appHarborSettings.SqlServerConnectionString = value;
-                else
-                    settings.Set("funnelweb.configuration.database.connection", value);
-            }
+            get { return appHarborSettings.SqlServerConnectionString ?? configMgr.ConnectionString; }
         }
 
         public string Schema
         {
-            get
-            {
-                return settings.Get("funnelweb.configuration.database.schema");
-            }
-            set
-            {
-                settings.Set("funnelweb.configuration.database.schema", value);
-            }
+            get { return configMgr.AppSettings(SchemaKey); }
+            set { configMgr.AppSettings(SchemaKey, value); }
         }
 
         public string ReadOnlyReason
         {
-            get { return settings.ReadOnlyReason; }
+            get { return configMgr.AppSettings(ReadOnlyReasonKey); }
         }
 
         public string DatabaseProvider
         {
-            get { return (settings.Get("funnelweb.configuration.database.provider") ?? "sql").ToLower(); }
-            set { settings.Set("funnelweb.configuration.database.provider", value); }
+            get { return (configMgr.AppSettings(ProviderKey) ?? "sql").ToLower(); }
+            set { configMgr.AppSettings(ProviderKey, value); }
         }
     }
 }

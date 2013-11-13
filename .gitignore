@@ -112,3 +112,6 @@ Views\Extensions\*
 
 Thumbs.db
 src/FunnelWeb.Web/files/
+src/FunnelWeb.Web/Web.Debug.config
+src/FunnelWeb.Web/Web.Release.config
+src/FunnelWeb.Web/Properties/PublishProfiles/
